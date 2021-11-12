@@ -102,6 +102,8 @@ def write_devices(devices: Sequence[Device], el_map: ElementTree.Element) -> Non
                     val = f'{val:d}'
                 elif field == 'CreateDate':
                     val = val.strftime('%Y%m%d%H%M%S%f')[:-3]
+                elif field == 'NullBin' and device.BinType == 'Decimal':
+                    val = f'{val:d}'
 
                 el_device.set(field, val)
 
