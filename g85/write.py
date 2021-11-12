@@ -42,7 +42,10 @@ def write_wmap(wmap: Map, el_root: ElementTree.Element) -> None:
     map_fields = [ff.name for ff in fields(wmap)]
     for field in map_fields:
         if field[0].isupper():
-            el_map.set(field, getattr(wmap, field))
+            val = getattr(device, field)
+            if val is None:
+                continue
+            el_map.set(field, getattr(wmap, val)
     for key, value in wmap.misc.items():
         if key[0].isupper() and key in map_fields:
             continue
@@ -90,6 +93,8 @@ def write_devices(devices: Sequence[Device], el_map: ElementTree.Element) -> Non
         for field in dev_fields:
             if field[0].isupper():
                 val = getattr(device, field)
+                if val is None:
+                    continue
 
                 if field in ('WaferSize', 'DeviceSizeX', 'DeviceSizeY', 'Orientation'):
                     val = f'{val:g}'
