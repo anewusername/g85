@@ -45,7 +45,7 @@ def write_wmap(wmap: Map, el_root: ElementTree.Element) -> None:
             val = getattr(device, field)
             if val is None:
                 continue
-            el_map.set(field, getattr(wmap, val)
+            el_map.set(field, val)
     for key, value in wmap.misc.items():
         if key[0].isupper() and key in map_fields:
             continue
