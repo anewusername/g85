@@ -96,7 +96,11 @@ def read_devices(el_map: ElementTree.Element) -> List[Device]:
                                  f'with attributes {el_entry.attrib}')
                     continue
 
-                bin_code = attrib['BinCode']
+                if bin_type == 'Decimal':
+                    bin_code = int(attrib['BinCode'])
+                else:
+                    bin_code = int(attrib['BinCode'])
+
                 if bin_code in device.bin_pass:
                     logger.error(f'Bin code {bin_code} was repeated; ignoring later entry!')
                     continue
