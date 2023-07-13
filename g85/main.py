@@ -22,8 +22,8 @@ class Device:
 
     bin_pass: dict[int | str, bool] = field(default_factory=dict)  # Is this bin passing?
     map: list[list[int]] | list[list[str]] = field(default_factory=list)   # The actual map
-    # Map attribs: MapName, MapVersion
-    # SupplierData attribs: ProductCode, RecipeName
+    data_misc: dict[str, str] = field(default_factory=dict)    # <Data attribs>
+    supplier_data: dict[str, str] = field(default_factory=dict)    # <SupplierData attribs>
 
     misc: dict[str, str] = field(default_factory=dict)  # Any unexpected fields go here
 

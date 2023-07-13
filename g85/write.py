@@ -113,6 +113,14 @@ def write_devices(devices: Sequence[Device], el_map: ElementTree.Element) -> Non
                 continue
             el_device.set(key, value)
 
+        for key, value in device.data_misc.items():
+            el_data.set(key, value)
+
+        if device.supplier_data:
+            el_suppdata = ElementTree.SubElement(el_device, 'SupplierData')
+            for key, value in device.data_misc.items():
+                el_suppdata.set(key, value)
+
 
 def prepare_data(data: list[list[str]] | list[list[int]], decimal: bool) -> tuple[list[str], int]:
     is_char = isinstance(data[0][0], str)

@@ -114,6 +114,12 @@ def read_devices(el_map: ElementTree.Element) -> list[Device]:
                 else:
                     data = data_strs
                 device.map = data
+                for key, value in attrib.items():
+                    device.data_misc[key] = value
+            elif tag == 'SupplierData':
+                for key, value in attrib.items():
+                    device.supplier_data[key] = value
+
         devices.append(device)
     return devices
 
