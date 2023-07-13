@@ -84,8 +84,9 @@ def write_devices(devices: Sequence[Device], el_map: ElementTree.Element) -> Non
             el_bin.set('BinQuality', 'Pass' if passed else 'Fail')
             el_bin.set('BinCount', str(bin_counts[bin_code]))
 
+        el_data = ElementTree.SubElement(el_device, 'Data')
         for row_text in row_texts:
-            el_row = ElementTree.SubElement(el_device, 'Row')
+            el_row = ElementTree.SubElement(el_data, 'Row')
             el_row.text = f'<![CDATA[{row_text}]]>'
 
         # Device attribs
