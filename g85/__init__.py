@@ -3,4 +3,4 @@ from .read import read
 from .write import write
 
 __author__ = 'Jan Petykiewicz'
-__version__ = '0.5'
+__version__ = '0.6'
