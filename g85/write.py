@@ -41,7 +41,7 @@ def write_wmap(wmap: Map, el_root: ElementTree.Element) -> None:
 
     map_fields = [ff.name for ff in fields(wmap)]
     for field in map_fields:
-        if field[0].isupper():
+        if field[0].isupper() or field == 'xmlns':
             val = getattr(wmap, field)
             if val is None:
                 continue
