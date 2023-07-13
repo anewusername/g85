@@ -1,4 +1,4 @@
-from typing import List, Union, TextIO, Any
+from typing import TextIO, Any
 import logging
 import datetime
 from dataclasses import fields
@@ -10,7 +10,7 @@ from .main import Map, Device
 logger = logging.getLogger(__name__)
 
 
-def read(stream: TextIO) -> List[Map]:
+def read(stream: TextIO) -> list[Map]:
     tree = ElementTree.parse(stream)
     el_root = tree.getroot()
 
@@ -21,7 +21,7 @@ def read(stream: TextIO) -> List[Map]:
     return maps
 
 
-def read_wmaps(el_root: ElementTree.Element) -> List[Map]:
+def read_wmaps(el_root: ElementTree.Element) -> list[Map]:
     map_fields = [ff.name for ff in fields(Map)]
     maps = []
     for el_map in el_root:
@@ -41,7 +41,7 @@ def read_wmaps(el_root: ElementTree.Element) -> List[Map]:
     return maps
 
 
-def read_devices(el_map: ElementTree.Element) -> List[Device]:
+def read_devices(el_map: ElementTree.Element) -> list[Device]:
     dev_fields = [ff.name for ff in fields(Device)]
     devices = []
     for el_device in el_map:
@@ -50,7 +50,7 @@ def read_devices(el_map: ElementTree.Element) -> List[Device]:
             continue
 
         bin_type = el_device.attrib['BinType']
-        null_bin: Union[int, str]
+        null_bin: int | str
         if bin_type == 'Decimal':
             null_bin = int(el_device.attrib['NullBin'])
         else:
@@ -108,7 +108,7 @@ def read_devices(el_map: ElementTree.Element) -> List[Device]:
                 device.bin_pass[bin_code] = attrib['BinQuality'].lower() == 'pass'
             elif tag == 'Data':
                 data_strs = [read_row(rr) for rr in el_entry]
-                data: Union[List[List[str]], List[List[int]]]
+                data: list[list[str]] | list[list[int]]
                 if device.BinType == 'Decimal':
                     data = [[int(vv) for vv in rr] for rr in data_strs]
                 else:
@@ -118,7 +118,7 @@ def read_devices(el_map: ElementTree.Element) -> List[Device]:
     return devices
 
 
-def read_row(el_row: ElementTree.Element) -> List[str]:
+def read_row(el_row: ElementTree.Element) -> list[str]:
     assert _tag(el_row) == 'Row'
 
     row_stripped = (el_row.text or '').strip()

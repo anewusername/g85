@@ -1,4 +1,4 @@
-from typing import Sequence, Tuple, List, TextIO, Union
+from typing import Sequence, TextIO, cast
 import logging
 import math
 from dataclasses import fields
@@ -113,26 +113,25 @@ def write_devices(devices: Sequence[Device], el_map: ElementTree.Element) -> Non
             el_device.set(key, value)
 
 
-def prepare_data(data: List[List[Union[str, int]]], decimal: bool) -> Tuple[List[str], int]:
+def prepare_data(data: list[list[str]] | list[list[int]], decimal: bool) -> tuple[list[str], int]:
     is_char = isinstance(data[0][0], str)
 
-    if is_char:
-        char_len = len(data[0][0])
-    else:
-        max_value = max(max(rr) for rr in data)
-        max_digits = math.ceil(math.log10(max_value))
-
     row_texts = []
-    for row in data:
-        if is_char and char_len == 1:
-            row_text = ''.join(row)
-        elif is_char:
-            row_text = ' '.join(row) + ' '
-        else:
-            row_text = ' '.join(str(vv).zfill(max_digits) for vv in row) + ' '
-        row_texts.append(row_text)
-
     if is_char:
+        data = cast(list[list[str]], data)
+        char_len = len(data[0][0])
+        for srow in data:
+            if char_len == 1:
+                row_text = ''.join(srow)
+            else:
+                row_text = ' '.join(srow) + ' '
+            row_texts.append(row_text)
         return row_texts, char_len
     else:
+        data = cast(list[list[int]], data)
+        max_value = max(max(rr) for rr in data)
+        max_digits = math.ceil(math.log10(max_value))
+        for irow in data:
+            row_text = ' '.join(str(vv).zfill(max_digits) for vv in irow) + ' '
+            row_texts.append(row_text)
         return row_texts, max_digits

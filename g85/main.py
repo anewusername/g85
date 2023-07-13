@@ -1,4 +1,3 @@
-from typing import Dict, List, Tuple, Union, Optional
 import datetime
 from collections import Counter
 from dataclasses import dataclass, field
@@ -8,25 +7,25 @@ from itertools import chain
 @dataclass
 class Device:
     BinType: str
-    NullBin: Union[str, int]
-    ProductId: Optional[str] = None
-    LotId: Optional[str] = None
-    WaferSize: Optional[float] = None
-    CreateDate: Optional[datetime.datetime] = None
-    DeviceSizeX: Optional[float] = None
-    DeviceSizeY: Optional[float] = None
-    SupplierName: Optional[str] = None
-    OriginLocation: Optional[int] = None
+    NullBin: str | int
+    ProductId: str | None = None
+    LotId: str | None = None
+    WaferSize: float | None = None
+    CreateDate: datetime.datetime | None = None
+    DeviceSizeX: float | None = None
+    DeviceSizeY: float | None = None
+    SupplierName: str | None = None
+    OriginLocation: int | None = None
     MapType: str = 'Array'
     Orientation: float = 0
-    reference_xy: Optional[Tuple[int, int]] = None
+    reference_xy: tuple[int, int] | None = None
 
-    bin_pass: Dict[Union[int, str], bool] = field(default_factory=dict)  # Is this bin passing?
-    map: Union[List[List[int]], List[List[str]]] = field(default_factory=list)   # The actual map
+    bin_pass: dict[int | str, bool] = field(default_factory=dict)  # Is this bin passing?
+    map: list[list[int]] | list[list[str]] = field(default_factory=list)   # The actual map
     # Map attribs: MapName, MapVersion
     # SupplierData attribs: ProductCode, RecipeName
 
-    misc: Dict[str, str] = field(default_factory=dict)  # Any unexpected fields go here
+    misc: dict[str, str] = field(default_factory=dict)  # Any unexpected fields go here
 
     @property
     def Rows(self) -> int:
@@ -46,9 +45,9 @@ class Device:
 class Map:
     xmlns: str = 'http://www.semi.org'
     FormatRevision: str = "SEMI G85 0703"
-    SubstrateType: Optional[str] = None
-    SubstrateId: Optional[str] = None
+    SubstrateType: str | None = None
+    SubstrateId: str | None = None
 
-    devices: List[Device] = field(default_factory=list)
-    misc: Dict[str, str] = field(default_factory=dict)  # Any unexpected fields go here
+    devices: list[Device] = field(default_factory=list)
+    misc: dict[str, str] = field(default_factory=dict)  # Any unexpected fields go here
 
