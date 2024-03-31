@@ -6,12 +6,13 @@
 ### Links
 - [Source repository](https://mpxd.net/code/jan/g85)
 - [PyPI](https://pypi.org/project/g85)
+- [Github mirror](https://github.com/anewusername/g85)
 
 
 ## Installation
 
 Requirements:
-* python >= 3.7 (written and tested with 3.9)
+* python >= 3.10 (written and tested with 3.11)
 * numpy
 
 
