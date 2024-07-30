@@ -139,7 +139,7 @@ def read_row(el_row: ElementTree.Element) -> list[str]:
 
 
 def _tag(element: ElementTree.Element) -> str:
-    '''
+    """
     Get the element's tag, excluding any namespaces.
-    '''
+    """
     return element.tag.split('}')[-1]
