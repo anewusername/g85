@@ -13,7 +13,6 @@
 
 Requirements:
 * python >= 3.10 (written and tested with 3.11)
-* numpy
 
 
 Install with pip:
