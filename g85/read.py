@@ -58,22 +58,24 @@ def read_devices(el_map: ElementTree.Element) -> list[Device]:
 
         device = Device(BinType=bin_type, NullBin=null_bin)
 
-        val: Any
         for key, val in el_device.attrib.items():
             if key in ('BinType', 'NullBin'):
                 continue
 
+            parsed_val: Any
             if key in ('WaferSize', 'DeviceSizeX', 'DeviceSizeY', 'Orientation'):
-                val = float(val)
+                parsed_val = float(val)
             elif key in ('OriginLocation',):
-                val = int(val)
+                parsed_val = int(val)
             elif key == 'CreateDate':
-                val = datetime.datetime.strptime(val + '000', '%Y%m%d%H%M%S%f')
+                parsed_val = datetime.datetime.strptime(val + '000', '%Y%m%d%H%M%S%f')
+            else:
+                parsed_val = val
 
             if key in dev_fields and key[0].isupper():
-                setattr(device, key, val)
+                setattr(device, key, parsed_val)
             else:
-                device.misc[key] = val
+                device.misc[key] = parsed_val
 
         for el_entry in el_device:
             tag = _tag(el_entry)
