@@ -1,4 +1,5 @@
-from typing import Sequence, TextIO, cast
+from typing import TextIO, cast
+from collections.abc import Sequence
 import logging
 import math
 from dataclasses import fields
@@ -15,7 +16,7 @@ class G85Error(Exception):
 
 
 # Hack to directly pass through <![CDATA[...]]>
-def _escape_cdata(text):
+def _escape_cdata(text: str) -> str:
     if text.startswith('<![CDATA[') and text.endswith(']]>'):
         return text
     else:
