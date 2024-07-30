@@ -10,6 +10,10 @@ from .main import Map, Device
 logger = logging.getLogger(__name__)
 
 
+class G85Error(Exception):
+    pass
+
+
 # Hack to directly pass through <![CDATA[...]]>
 def _escape_cdata(text):
     if text.startswith('<![CDATA[') and text.endswith(']]>'):
@@ -64,7 +68,7 @@ def write_devices(devices: Sequence[Device], el_map: ElementTree.Element) -> Non
 
         # Row data prep
         if device.map is None:
-            raise Exception(f'No _data for device pformat({device})')
+            raise G85Error(f'No _data for device pformat({device})')
 
         is_decimal = device.BinType == 'Decimal'
         row_texts, bin_length = prepare_data(device.map, decimal=is_decimal)
