@@ -19,8 +19,7 @@ class G85Error(Exception):
 def _escape_cdata(text: str) -> str:
     if text.startswith('<![CDATA[') and text.endswith(']]>'):
         return text
-    else:
-        return _original_escape_cdata(text)
+    return _original_escape_cdata(text)
 
 
 _original_escape_cdata = ElementTree._escape_cdata      # type: ignore
@@ -141,7 +140,7 @@ def prepare_data(data: list[list[str]] | list[list[int]], decimal: bool) -> tupl
                 row_text = ' '.join(srow) + ' '
             row_texts.append(row_text)
         return row_texts, char_len
-    else:
+    else:       # noqa: RET505
         data = cast(list[list[int]], data)
         max_value = max(max(rr) for rr in data)
         max_digits = math.ceil(math.log10(max_value))
